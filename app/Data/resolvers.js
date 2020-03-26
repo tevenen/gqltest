@@ -62,7 +62,40 @@ const resolvers = {
         // Throw error if user is not authenticated
         throw new Error('Missing or invalid jwt token')
       }
-    }
+    },
+
+    // Edit post
+    async editPost(_, {id, title, content }, { auth }) {
+      try {
+        // Check if user is logged in
+        await auth.check()
+       
+        // Get the authenticated user
+     
+      } catch (error) {
+        // Throw error if user is not authenticated
+        throw new Error('Missing or invalid jwt token')
+
+      }
+
+      const user = await auth.getUser()
+      
+      const post = await Post.find(id)
+      if(!post){
+        throw new Error ("Post ne postoji")
+      }
+
+      if(user.id === post.user_id){
+        post.title = title
+        post.content = content
+        await post.save()
+        return post
+      }
+      else{
+        throw new Error('Nemate pravo da menjate ovaj post')
+      }
+
+    },
   },
   User: {
     // Fetch all posts created by a user
