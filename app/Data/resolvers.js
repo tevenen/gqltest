@@ -4,6 +4,7 @@
 
 const User = use('App/Models/User')
 const Post = use('App/Models/Post')
+const Comment = use('App/Models/Comment')
 const slugify = require('slugify')
 
 // Define resolvers
@@ -28,7 +29,16 @@ const resolvers = {
     async fetchPost(_, { id }) {
       const post = await Post.find(id)
       return post.toJSON()
+    },
+    async allComments() {
+      const comments = await Comment.all()
+      return comments.toJSON();
+    },
+    async fetchComment(_, { id }) {
+      const comment = Comment.find(id)
+      return comment.toJSON();
     }
+
   },
   Mutation: {
     // Handles user login
@@ -69,9 +79,9 @@ const resolvers = {
       try {
         // Check if user is logged in
         await auth.check()
-       
+
         // Get the authenticated user
-     
+
       } catch (error) {
         // Throw error if user is not authenticated
         throw new Error('Missing or invalid jwt token')
@@ -79,7 +89,7 @@ const resolvers = {
       }
 
       const user = await auth.getUser()
-      
+
       const post = await Post.find(id)
       if(!post){
         throw new Error ("Post ne postoji")
@@ -96,6 +106,27 @@ const resolvers = {
       }
 
     },
+    async addComment(_, { content, postId }, { auth }) {
+      try {
+        // Check if user is logged in
+        await auth.check()
+
+        // Get the authenticated user
+
+      } catch (error) {
+        // Throw error if user is not authenticated
+        throw new Error('Missing or invalid jwt token')
+
+      }
+
+      const user = await auth.getUser()
+
+      return await Comment.create({
+        user_id: user.id,
+        post_id: postId,
+        content
+      })
+    }
   },
   User: {
     // Fetch all posts created by a user
@@ -117,6 +148,23 @@ const resolvers = {
 
       const user = await post.user().fetch()
       return user.toJSON()
+    }
+  },
+  Comment: {
+    async user(commentInJson) {
+      const comment = new Comment()
+      comment.newUp(commentInJson)
+
+      const user = await comment.commentToUser().fetch()
+      return user.toJSON();
+    },
+
+    async post(commentInJson) {
+      const comment = new Comment()
+      comment.newUp(commentInJson)
+
+      const post = await comment.commentToPost().fetch()
+      return post.toJSON()
     }
   }
 }

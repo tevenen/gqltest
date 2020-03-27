@@ -46,6 +46,17 @@ class User extends Model {
     return this.hasMany('App/Models/Post')
   }
 
+
+  /**
+   * A user has many comments
+   *
+   * @method userToComment
+   *
+   * @returns {HasMany}
+   */
+  userToComment() {
+    return this.hasMany('App/Models/Comment');
+  }
 }
 
 module.exports = User

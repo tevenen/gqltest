@@ -14,6 +14,17 @@ class Post extends Model {
   user () {
     return this.belongsTo('App/Models/User')
   }
+
+  /**
+   * A post has many comments
+   *
+   * @method postToComment
+   *
+   * @returns {HasMany}
+   */
+  postToComment() {
+    return this.hasMany('App/Models/Comment');
+  }
 }
 
 module.exports = Post;
