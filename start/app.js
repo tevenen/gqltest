@@ -16,7 +16,8 @@ const providers = [
   '@adonisjs/bodyparser/providers/BodyParserProvider',
   '@adonisjs/cors/providers/CorsProvider',
   '@adonisjs/lucid/providers/LucidProvider',
-  'adonis-apollo-server/providers/ApolloServerProvider'
+  'adonis-apollo-server/providers/ApolloServerProvider',
+  'adonis-4-cloudinary/provider/Cloudinary'
 ]
 
 /*
@@ -44,7 +45,9 @@ const aceProviders = [
 |   { Route: 'Adonis/Src/Route' }
 |
 */
-const aliases = {}
+const aliases = {
+  Cloudinary: 'Adonis/Addons/AdonisCloudinary'
+}
 
 /*
 |--------------------------------------------------------------------------
