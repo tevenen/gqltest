@@ -6,6 +6,7 @@ const typeDef = `
     fetchPost(id: Int!): Post
     allComments: [Comment]
     fetchComment(id: Int!): Comment
+    sendMail(email: String!): Boolean
   }
 `;
 

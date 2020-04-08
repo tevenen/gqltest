@@ -17,7 +17,9 @@ const providers = [
   '@adonisjs/cors/providers/CorsProvider',
   '@adonisjs/lucid/providers/LucidProvider',
   'adonis-apollo-server/providers/ApolloServerProvider',
-  'adonis-4-cloudinary/provider/Cloudinary'
+  'adonis-4-cloudinary/provider/Cloudinary',
+  '@adonisjs/mail/providers/MailProvider',
+  '@adonisjs/framework/providers/ViewProvider'
 ]
 
 /*

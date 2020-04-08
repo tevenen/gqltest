@@ -2,6 +2,8 @@ const User = use('App/Models/User')
 const Post = use('App/Models/Post')
 const Comment = use('App/Models/Comment')
 
+const Mail = use('Mail')
+
 // Query resolver
 const typeDef = {
     // Fetch all users
@@ -31,6 +33,15 @@ const typeDef = {
     async fetchComment(_, { id }) {
       const comment = Comment.find(id)
       return comment.toJSON();
+    },
+    async sendMail(_, { email } ){
+      await Mail.send('emails.welcome', { username: 'Stefan' }, (message) => {
+        message
+          .to('stefisd@gmail.com')
+          .from('<from-email>')
+          .subject('Welcome to yardstick')
+      })
+      return true;
     }
   }
 
